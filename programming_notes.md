@@ -60,9 +60,9 @@ Big O establishes worst case run time.
 ### Logarithms:
 ---
 “How many 10s do we multiply
-together to get 100?” The answer is 2: 10 × 10. So log10 100 = 2. Logs are the
-flip of exponentials.
-
+together to get 100?” 
+The answer is 2: 10 × 10. So log10 100 = 2. 
+Logs are the flip of exponentials.
 
 ### Binary Search:
 ---
@@ -80,6 +80,7 @@ For n items, it will take n! (n factorial) operations to compute the result.
 ### Arrays vs Linked Lists:
 ---
 Arrays: Read O(1), Write O(n), Delete O(n)
+
 Lists: Read O(n), Write O(1), Delete O(1)
 
 
@@ -118,7 +119,8 @@ empty array or an array with one element
 - Much faster than selection sort.
 - Faster in practice because it hits the average case way more often than the worst case.
 - Frequently used in real life
-[10, 5, 7, 33] --> [5, 7, 10], [33] // choose your pivot e.g. 33 and sort the others.
+`[10, 5, 7, 33] --> [5, 7, 10], [33] // choose your pivot e.g. 33 and sort the others.`
+
 e.g.:
 
 ```python
@@ -260,7 +262,7 @@ directory = Path("/etc")
 filepath = directory / "test_file.txt"
 
 if filepath.exists():
-  do stuff
+    # do stuff
 ```
 
 
@@ -288,10 +290,12 @@ asyncio.ensure_future(display_date(1, loop))
 asyncio.ensure_future(display_date(2, loop))
 
 loop.run_forever()
-
+```
 
 async/ await
 ---
+
+```python
 import asyncio
 import datetime
 import random
