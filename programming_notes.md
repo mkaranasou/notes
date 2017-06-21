@@ -88,7 +88,7 @@ Lists: Read O(n), Write O(1), Delete O(1)
 ---
 O(n2)
 
-```
+```python
 def find_smallest(arr):
   smallest = arr[0]   # will store the smallest value - instantiate with first element
   smallest_index = 0  # will the index of the smallest value - initial is 0
@@ -138,10 +138,10 @@ def quicksort(array):
 `source: http://www.asmeurer.com/python3-presentation/slides.html#36`
 
 ### Feature 1: Advanced unpacking
-```
-a, b, *rest = range(10) # will assign 0 to a, 1 to b and the rest to rest```
-a,*rest b,  = range(10) # will work too```
-*rest b,    = range(10) # will work too```
+```python
+a, b, *rest = range(10) # will assign 0 to a, 1 to b and the rest to rest
+a,*rest b,  = range(10) # will work too
+*rest b,    = range(10) # will work too
 with open("using_python_to_profit") as f:
   first, *_, last = f.readlines()
 
@@ -151,7 +151,7 @@ def f(*args):
 ```
 
 ### Feature 2: Keyword only arguments
-```
+```python
 def f(a, b, *args, flag=True):
     # do something
 
@@ -170,7 +170,7 @@ except IOError:
 
 ### Feature 4: Fine grained OSError subclasses
 from this:
-```
+```python
 import errno
 
 try:
@@ -196,7 +196,7 @@ No more xrange instead of range!
 
 ### Feature 6: Cannot compare everything to everything
 
-```
+```python
 'one' > 2 # returns True in Python but this can yield unexpected results
 ```
 This won't work in Python 3
@@ -205,15 +205,17 @@ This won't work in Python 3
 ### Feature 7: yield from
 
 Instead of:
-```
+```python
 for i in gen():
   yield i
 ```
 do:
-`yield from gen()`
+```python
+yield from gen()
+```
 
 ### Feature 8: asyncio
-```
+```python
 # Taken from Guido's slides from “Tulip: Async I/O for Python 3” by Guido
 # van Rossum, at LinkedIn, Mountain View, Jan 23, 2014
 @coroutine
@@ -255,7 +257,7 @@ np.dot(a, b) --> a @ b # override __matmul__ to use @
 ### Feature 13: Pathlib
 
 Much simpler than `os. . . `:
-```
+```python
 from pathlib import Path
 
 directory = Path("/etc")
