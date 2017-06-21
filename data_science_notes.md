@@ -185,7 +185,7 @@ the purpose of reconstructing its own inputs
 Therefore, autoencoders are unsupervised learning models.
 
 
-Mean:
+Median:
 -------------------------------------------------------------------
 
 ```python
