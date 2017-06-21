@@ -1,37 +1,3 @@
-```bash
-# to be able to install scipy in Ubuntu
-sudo apt-get install gfortran libopenblas-dev liblapack-dev
-```
-
-Useful links:
----
-http://stats.stackexchange.com/questions/152644/what-algorithm-should-i-use-to-detect-anomalies-on-time-series
-http://www.slideshare.net/Anodot/analytics-for-largescale-time-series-and-event-data
-https://machinelearningmastery.com/machine-learning-with-python/
-http://stats.stackexchange.com/questions/81538/is-it-possible-to-train-a-one-class-svm-to-have-zero-training-error
-http://stats.stackexchange.com/questions/96922/one-class-classifier-cross-validation
-http://stackoverflow.com/questions/24078301/custom-cross-validation-split-sklearn
-http://stackoverflow.com/questions/11116697/how-to-get-most-informative-features-for-scikit-learn-classifiers
-
-##### Netflix:
-http://probdist.com/netflix-anomaly-detection/
-
-http://www.covert.io/    # various papers
-http://www.mlsecproject.org/
-http://www.secrepo.com/
-
-Data sets:
-*http://mcfp.weebly.com/the-ctu-13-dataset-a-labeled-dataset-with-botnet-normal-and-background-traffic.html (2011)
-*http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html
-*http://kdd.ics.uci.edu/databases/kddcup99/kddcup.names
-*http://digitalcorpora.org/
-
-\*: http://www.secrepo.com/
-
-Poseidon (uses Deep Learning)
-https://gab41.lab41.org/machine-learning-for-network-security-theres-an-app-for-that-e9bc01139f19#.aboloxed9
-https://github.com/Lab41/poseidon
-
 Null-hypothesis
 ----------------
 A general statement or default position that there is no relationship between
@@ -77,6 +43,9 @@ variation in the data [e.g. everything was equal to 1] there would be no informa
 it’s a very boring statistic – in this scenario the eigenvalue for that dimension would equal zero,
 because there is no variation).
 
+https://coolstatsblog.com/2015/03/21/principal-component-analysis-for-dummies/
+PCA performs orthogonal transformation to the points (projection of the vertical line on an axis)
+and then takes the projected points in order to reduce dimensionality.
 
 Neural Networks
 ----------------
@@ -216,18 +185,15 @@ the purpose of reconstructing its own inputs
 Therefore, autoencoders are unsupervised learning models.
 
 
-PCA:
--------------------------------------------------------------------
-https://coolstatsblog.com/2015/03/21/principal-component-analysis-for-dummies/
-PCA performs orthogonal transformation to the points (projection of the vertical line on an axis)
-and then takes the projected points in order to reduce dimensionality.
-
-
 Mean:
 -------------------------------------------------------------------
+
+```python
 a = [0,1,2,3,1,4]
 sorted(a)
 median  = a[len(a)/2]  # the number in the middle
+```
+
 The median better represents the typical example and is less susceptible to outliers
 
 Mode:
@@ -243,12 +209,14 @@ The shape of the histogram can explain the variance
 Variance (σ^2):
 ---------------------------------------------------------------------
 The average of the squared differences from the mean
-sum(((x-mean)^2 for x in a))/ len(a)
+`sum(((x-mean)^2 for x in a))/ len(a)`
 
 Standard Deviation (sqrt(variance) == sqrt(σ^2))
 ----------------------------------------------------------------------
 A way to identify outliers.
-sqrt(sum(((x-mean)^2 for x in a))/ len(a))
+
+`sqrt(sum(((x-mean)^2 for x in a))/ len(a))`
+
 "Data points that lie more than one standard deviation from the mean can be considered unusual"
 
 Population vs Sample
@@ -257,12 +225,16 @@ If we are working with a sample of the dataset (population), we want to use the
 "sample variance" instead of "population variance"
 
 For N samples, you divide the sqared varuances by N-1 instead of N
+```python
 sum(((x-mean)^2 for x in a))/ (len(a)-1)
+```
 
 Probability Density Functions
 ---------------------------------------------------------------------
 Used for continuous data
+```python
 np.random.uniform(-10.0, 10.0, 100000)
+
 |
 |
 |---------------------------|
@@ -270,6 +242,7 @@ np.random.uniform(-10.0, 10.0, 100000)
 |___________________________|
 -10           0             10
 
+```
 
 Probability Mass Function
 ---------------------------------------------------------------------
@@ -281,11 +254,13 @@ Normal Distribution
 'mu' is the desired mean
 'sigma' is the standard deviation
 
+``` python
 mu = 5.0
 sigma = 2.0
 values  = np.random.normal(mu, sigma, 10000)
 plt.hist(values, 50)
 plt.show()
+```
 
 Exponential PDF (Probability Density Function)/ "Power Law"
 --------------------------------------------------------------------
@@ -296,14 +271,14 @@ import matplotlib as plt
 
 x = np.arrange(0, 10, 0.001)
 plt.plot(x, expon.pdf(x))
-```
+
 
 |
 |\
 | \
 |   \_______________
 |___________________________________
-
+```
 
 Binomial Probability Mass Function
 ----------------------------------------------------------------------
@@ -314,7 +289,7 @@ import matplotlib as plt
 n, p = 10, 0.5
 x = np.arrange(0, 10, 0.001)
 plt.plot(x, binom.pmf(x, n, p)
-```
+
 
 |           |
 |           |   |
@@ -322,7 +297,7 @@ plt.plot(x, binom.pmf(x, n, p)
 |       |   |   |
 |   |   |   |   |   |
 |___|___|___|___|___|___
-
+```
 
 Poisson Probability Mass Function
 ----------------------------------------------------------------------
@@ -563,13 +538,15 @@ Use correlation to decide about what experiments to run
 #### the hard way
 
 ```python
+import numpy as np
+
 def deviations_mean(x):
     xmean = mean(x)
     return [xi-mean for xi in x]
 
 def covariance(x, y):
     n = len(x)
-    return dot(deviations_mean(x), deviations_mean(y)) / (n-1)
+    return np.dot(deviations_mean(x), deviations_mean(y)) / (n-1)
 
 page_speeds = np.random.normal(3.0, 1.0, 1000)
 purchase_amount = np.random.normal(50.0, 10.0, 1000)
@@ -666,6 +643,7 @@ It is the probability of an observation lying at an extreme t-value assuming the
     - If it is less than your significance threshold, then you can reject the null hypothesis
         - if it is a positive change, roll it out
         - if it is a negative change, discard it.
+
 ```python
 import numpy as np
 from scipy import stats
@@ -832,10 +810,28 @@ Spark has to serialize data ... a lot
   - Memory is conserved, because of the compact format. Speed is improved by
     custom code-generation
 
-- Python and Scala API is kept the same, with the first one being left slightly behind.
-- Databricks is the official support for Spark.
+- Python and Scala API is kept the same, same names and naming conventions (Java-like camelCase) 
+  The Python API is usually being left slightly behind Scala's but so far this hasn't caused any issues.
+- [Databricks](https://databricks.com/) is the official support for Spark.
+- [Databricks Community learing](https://community.cloud.databricks.com/?o=7768271608877504)
+- [Databricks Python intro to Spark](https://docs.databricks.com/_static/notebooks/gentle-introduction-to-apache-spark.html)
 
-
+- The following are equivalent regarding column handling:
+    - `col("x") == 1` `col` is the column representation of data, it is used like this:
+     ```python
+    df = df.withColumn("periodicity_report", col("ts"))
+     ```
+    - `df("x") == 1`  use some df directly
+     ```python
+    df = df.withColumn("periodicity_report", df("ts"))
+    # or with a different df but
+    # I believe some_other_df must have the same dimensions as df for this to work
+    df = df.withColumn("periodicity_report", some_other_df("ts"))
+     ```
+    - `expr("x = 1")`  `expr` is the sql parser
+     ```python
+    df = df.withColumn("periodicity_report", expr("ts=123456"))
+     ```
 
 TF-IDF Term Frequency and Inverse Document Frequency
 ---
@@ -953,7 +949,8 @@ Feature Extraction:
       - Then fit the algorithm on the training set
       - Score the validation set.
       - Save the result of that scoring in respect to the chosen metric.
-      - Calculate the average of these 10 (X) times. That how much you expect this score in real life and is generally a good estimate.
+      - Calculate the average of these 10 (X) times. 
+        That how much you expect this score in real life and is generally a good estimate.
       - Remember to use a SEED to be able to replicate these X splits
       - Other things to consider is Kfold and stratified KFold . Read here. For time sensitive data,
         make certain you always the rule of having past predicting future when testing’s.
@@ -968,13 +965,18 @@ Feature Extraction:
 
     14. What techniques perform best on large data sets on Kaggle and in general ? How to tackle memory issues ?
 
-    Big data sets with high cardinality can be tackled well with linear models. Consider sparse models. Tools like vowpal wabbit. FTRL , libfm, libffm, liblinear are good tools matrices in python (things like csr matrices). Consider ensembling (like combining) models trained on smaller parts of the data.
+    Big data sets with high cardinality can be tackled well with linear models. 
+    Consider sparse models. Tools like vowpal wabbit. 
+    FTRL , libfm, libffm, liblinear are good tools matrices in python (things like csr matrices). 
+    Consider ensembling (like combining) models trained on smaller parts of the data.
 
     15. What is the SDLC (Sofware Development Life Cycle) of projects involving Machine Learning ?
 
-    Give a walk-through on an industrial project and steps involved, so that we can get an idea how they are used. Basically, I am in learning phase and would expect to get an industry level exposure.
+    Give a walk-through on an industrial project and steps involved, so that we can get an idea how they are used.
+    Basically, I am in learning phase and would expect to get an industry level exposure.
     Business questions: How to recommend products online to increase purchases.
-    Translate this into an ml problem. Try to predict what the customer will buy in the future given some data available at the time the customer is likely to make the click/purchase, given some historical exposures to recommendations
+    Translate this into an ml problem. Try to predict what the customer will buy in the future given some data available
+    at the time the customer is likely to make the click/purchase, given some historical exposures to recommendations
     Establish a test /validation framework.
     Find best solutions to predict best what customer chose.
     Consider time/cost efficiency as well as performance
@@ -1064,7 +1066,8 @@ This is not very realistic, but it does mean that a larger area under the curve 
 
 
 # Deep Learning:
----
+
+```
 Speech:
   audio --> phonemes --> transcript
   audio ---------------> transcript (DL approach - train a NN)
@@ -1077,21 +1080,22 @@ Image:
   image --> cars --> trajectory --> steering
       \--> pedestrians_/^
   image --------------------------> steering (Much more difficult, not sure it would work)
+```
 
+## Goal: Build human-level speech system
 
-Goal: Build human-level speech system
----
 
 ```
 ________________________________________________________________
 |  train                             | dev / validation| test  |
 ----------------------------------------------------------------
-```
+
 Human level error   1%  --> The Bias            | 1%                  | 1%  -> This is a high Bias
 Training Set error  5%  --> of the algorithm    | 2% -> We have a     | 5%  -> and High Variance
 Dev Set error       6%                          | 6% -> Variance Issue| 10% -> issue
+```
 
-
+```
 Training error high? -- Y -- > try train longer or a  new model architecture or train a bigger model
           |
           N
@@ -1103,6 +1107,7 @@ Training error high? -- Y -- > try train longer or a  new model architecture or 
           |
           V
         Done!
+```
 
 ### Automatic Data Synthesis
 - OCR
@@ -1152,7 +1157,7 @@ Training error high? -- Y -- > try train longer or a  new model architecture or 
         Done!
 
 ```
-Human level performance
+#### Human level performance
 ```
         |---------------------------- There is an optimal error rate (Bayes rate)
         |             ________
@@ -1162,8 +1167,7 @@ Human level performance
         |_______/____________________
 ```
 
-Human error Medical example:
---
+#### Human error Medical example:
 1. Typical Human 3%
 2. Typical Doctor 1%
 3. Expert Doctor 0.7%
@@ -1183,5 +1187,3 @@ What can AI/ DL do?
 
 How to become better:
 Read a lot of papers, replicate results and do the dirty work!
-
-
