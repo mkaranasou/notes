@@ -168,6 +168,20 @@ https://arxiv.org/pdf/1404.4679.pdf
 http://www.andrew.cmu.edu/user/lakoglu/pubs/oddball_TR.pdf
 
 
+### The curse of dimensionality in anomaly detection
+Zimek et al. identified the following problems when searching for anomalies in high-dimensional data:
+
+- *Concentration of scores and distances*: derived values such as distances become numerically similar
+- *Irrelevant attributes*: in high dimensional data, a significant number of attributes may be irrelevant
+- *Definition of reference sets*: for local methods, reference sets are often nearest-neighbor based
+- *Incomparable scores for different dimensionalities*: different subspaces produce incomparable scores
+- *Interpretability of scores*: the scores often no longer convey a semantic meaning
+- *Exponential search space*: the search space can no longer be systematically scanned
+- *Data snooping bias*: given the large search space, for every desired significance a hypothesis can be found
+- *Hubness*: certain objects occur more frequently in neighbor lists than others.
+
+(http://onlinelibrary.wiley.com/doi/10.1002/sam.11161/abstract;jsessionid=ECE82240F11BB8C73AF5FDF1925BCE98.f04t04 )
+
 Autoencoder
 ------------------------------------------------------------------
 https://en.wikipedia.org/wiki/Autoencoder
@@ -1187,3 +1201,71 @@ What can AI/ DL do?
 
 How to become better:
 Read a lot of papers, replicate results and do the dirty work!
+
+
+Building a Recommendation system
+--------------------------------
+
+### Movie example
+
+```
+                Movies each user has seen
+Genre   Maria   Nick    Anneta  Leo Kyriakos . . .
+
+Action  10      22      13      24      41
+Drama   6       2       2       3       15
+Comedy  12      34      12      19      1
+Horror  3       20      22      18      29
+Romance 8       2       12      3       1
+.
+.
+.
+```
+
+## Cosine Similarity
+It compares the angle between two vectors to see how close they are (used in KNN).
+
+## KNN
+- Used in classification and regression
+- Looks up the k-nearest neighbors and decides where an observation belongs by counting the neighbors (simply put)
+
+
+## Classification
+- Categorize into a group
+- Discrete
+
+## Regression
+- Predict response
+- Continuous
+
+## Supervised vs Unsupervised vs Semi-supervised
+```
+# A supervised example: we know the labels
+This is a wonderful day --> positive
+This sucks              --> negative
+I see you               --> neutral
+```
+
+Unsupervised: when we don't know the labels but we have the features and we want to
+group the observations based on these features into categories - clustering
+
+Semi-supervised (Transductive or inductive learning):
+a supervised method basically but also makes use of unlabeled data for training.
+Usually a small amount of labeled data with a huge amount of unlabeled data.
+Infer the correct labels for the unlabeled data: smoothness, manifold and cluster assumption.
+
+# The curse of dimensionality
+When the dimensionality increases, the volume of the space increases so fast that the available data become sparse.
+This sparsity is problematic for any method that requires statistical significance.
+In order to obtain a statistically sound and reliable result, the amount of data needed to support the result often grows exponentially with the dimensionality.
+
+In machine learning problems that involve learning a "state-of-nature" (maybe an infinite distribution) from a finite number of data samples
+in a high-dimensional feature space with each feature having a number of possible values,
+an enormous amount of training data is required to **ensure that there are several samples with each combination of values**.
+With a fixed number of training samples, **the predictive power reduces as the dimensionality increases**
+- known as Hughes phenomenon (named after Gordon F. Hughes)
+(source: https://en.wikipedia.org/wiki/Curse_of_dimensionality)
+
+
+# Deep Learning
+

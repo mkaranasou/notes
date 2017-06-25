@@ -134,6 +134,115 @@ def quicksort(array):
     return quicksort(less) + [pivot] + quicksort(greater)
 ```
 
+### Dijkstra
+Steps:
+- Find the cheapest node
+- Check the neighbors of this node to see if there is a cheapest path and update their costs
+- Repeat for every node in the graph
+- Calculate the final path
+
+Only works with **positive weighted edges**
+
+
+Example:
+```python
+
+def find_least_cost_node(costs):
+    lowest_cost = infinity
+    lowest_cost_node = None
+
+    for each in costs:
+        cost = costs[each]
+
+        if cost < lowest_cost and each not in processed:
+            lowest_cost_node = each
+            lowest_cost = cost
+
+    return lowest_cost_node
+
+if __name__ == "__main__":
+    infinity = float("inf")
+    costs = {}
+    graph = {}
+    parents = {}
+    processed = []
+
+    graph["node1"] = ["node3"]
+    graph["node2"] = ["node3", "node4"]
+    graph["node3"] = ["node5"]
+    graph["node5"] = ["node6"]
+    graph["node4"] = ["node6"]
+
+    graph["start"] = {}
+    graph["start"]["node1"] = 2
+    graph["start"]["node2"] = 5
+
+    parents["node1"] = "start"
+    parents["node2"] = "start"
+    parents["end"] = None
+
+    costs["node1"] = 2
+    costs["node2"] = 2
+    costs["node3"] = infinity
+    costs["node4"] = infinity
+    costs["node5"] = infinity
+    costs["node6"] = infinity
+
+    # given the initial costs the algorithm will choose between node1 and node2
+    node = find_least_cost_node(costs)
+
+    while node is not None:
+        cost = costs[node]
+        neighbors = graph[node]
+        for each in neighbors:
+            new_cost = cost + neighbors[each]
+            if costs[each] > new_cost:
+                costs[each] = new_cost
+                parents[each] = node
+        processed.append(node)
+        node = find_least_cost_node(costs)
+
+```
+
+
+### Bellman-Ford
+
+...
+
+
+### Dynamic Programming
+- Break a problem into discrete sub-problems
+- Usefull when trying to optimize something given a constraint
+- Every dynamic solution involves a grid with the cells being the sub-problems and what is needed to be optimized.
+- There is no single formula to calculate a dynamic programming solution
+
+todo: example
+
+
+### Trees
+
+\#todo
+
+# B-trees
+
+# Red-back trees
+
+# Heaps
+
+# Splay trees
+
+
+...
+
+### Fourier Transformation
+```
+"Given a smoothie, the Fourier transform will give you the ingredients of the smoothie"
+
+ src: Better Explained
+ ```
+
+
+
 # Python 3 Features
 `source: http://www.asmeurer.com/python3-presentation/slides.html#36`
 
