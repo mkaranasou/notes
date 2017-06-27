@@ -1260,6 +1260,18 @@ Romance 8       2       12      3       1
         The number of items is also fixed - or at least it doesn't grow with the same rate as the number of users.
     - Other algorithms - simpler but not as good as the above. E.g. Market basket analysis.    
 
+### Evaluation of RE:
+- Recall:
+  - What ratio of items that a user likes were actually recommended.
+  - If a user likes x items and the engine recommended x-2 of them, then the recall is `(x-2) / x`,
+  `# of the total items the user liked / # of the engine recommended that are in the items the user liked`
+- Precision
+    - Out of all the recommended items, how many the user actually liked?
+    - If x items were recommended to the user out of which he liked x-1 of them, then precision is `(x-1) / x`,
+    `# of what the user liked from what we suggested / # of what we suggested`
+    
+The optimal would be `recall = precision = 1`, when we only recommend the items a user likes.
+
 [src](https://www.analyticsvidhya.com/blog/2016/06/quick-guide-build-recommendation-engine-python/)
 
 ## Cosine Similarity
@@ -1321,8 +1333,8 @@ RMSE
 ---
 ![RMSE](./img/RMSE.png)
 RMSE answers the question: **"How similar, on average, are the numbers in group A to group B?"**. 
-The two groups must be *the same size*. I want to "wash out the noise between any two given elements, 
-wash out the size of the data collected, and get a single number feel for change over time".
+The two groups must be **the same size**. I want to remove from the equation the **noise between any two given elements**, 
+**the size of the data collected**, and get a **single number** feel for **change over time**".
 
 [src](https://stackoverflow.com/a/37861832/3433323)
 
@@ -1375,3 +1387,9 @@ the covariance of two variables divided by the product of their standard deviati
 
 [src](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient)
 
+
+Singular Value Decomposition (SVD)
+---
+tbd
+
+[src](http://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm)
