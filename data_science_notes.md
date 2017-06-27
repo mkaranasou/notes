@@ -1222,8 +1222,54 @@ Romance 8       2       12      3       1
 .
 ```
 
+### Types of Recommendation Engines:
+- Recommend Most Popular
+    Simple but not personalized. Just recommend the most popular items. This means that you would recommend the
+    same items to every user.
+    
+    Works in news portals since they recommend the `hottest` topic and the articles/ items are divided by category.
+    
+- Use a classifier to make recommendations
+    
+    Pros:
+    Incorporates personalization and it can work in cases where we don't have much data on a user - provided we have
+    a good model.
+    
+    Cons:
+    Nothing assures you the features and the model will be good. Let alone the complexity of a model will increase 
+    as the number of items/ features/ users grow.
+    
+- Use Recommendation Algorithms:
+    #### Content based algorithms:
+    - if you like an item then you will like a similar item. So, item similarity needs to be determined.
+    Can work well, depending on how well "similarity", thus properties are defined.
+     
+    #### Collaborative Filtering
+    - If a person likes A, B and another person likes B, C then they have similar interests and what the first person likes 
+    can be something the second person likes also.
+    This is based on past behavior - not on context, so no additional information.
+    ##### Types:
+    - User to User:
+        Find similar users and suggest products that one of the users in the similar groups has chosen in the past.
+        Effective but time and resource consuming - needs parallelization and scalability.
+    - Item to Item:
+        Similar to the above but from a different perspective: find similar items, group them together and when a
+        user purchases one of the items suggest the others belonging to the same group.
+        Less time and resource consuming and you can have results within a shorter timespan than user to user because
+        with the first purchase you can update the similarity groups of items - you don't need another user etc.
+        The number of items is also fixed - or at least it doesn't grow with the same rate as the number of users.
+    - Other algorithms - simpler but not as good as the above. E.g. Market basket analysis.    
+
+[src](https://www.analyticsvidhya.com/blog/2016/06/quick-guide-build-recommendation-engine-python/)
+
 ## Cosine Similarity
 It compares the angle between two vectors to see how close they are (used in KNN).
+Cosine similarity is a measure of similarity between two non-zero vectors of 
+an **inner product space** that measures the **cosine of the angle between them**, which means
+the values are bounded in [0,1].
+
+Can be used for evaluation of regression implementations - to measure how close the predicted values are to the
+target values. The **closer the vectors**, the **smaller the angle** and **larger the cosine**.
 
 ## KNN
 - Used in classification and regression
@@ -1268,4 +1314,64 @@ With a fixed number of training samples, **the predictive power reduces as the d
 
 
 # Deep Learning
+
+
+
+RMSE
+---
+![RMSE](./img/RMSE.png)
+RMSE answers the question: **"How similar, on average, are the numbers in group A to group B?"**. 
+The two groups must be *the same size*. I want to "wash out the noise between any two given elements, 
+wash out the size of the data collected, and get a single number feel for change over time".
+
+[src](https://stackoverflow.com/a/37861832/3433323)
+
+
+Jaccard index
+---
+The Jaccard index, also known as Intersection over Union and the Jaccard similarity coefficient 
+(originally coined coefficient de communauté by Paul Jaccard), 
+is a statistic used for comparing the similarity and diversity of sample sets. 
+The Jaccard coefficient measures similarity between finite sample sets, 
+and is defined as the size of the intersection divided by the size of the union of the sample sets:
+![Jaccard coefficient](https://wikimedia.org/api/rest_v1/media/math/render/svg/eaef5aa86949f49e7dc6b9c8c3dd8b233332c9e7)
+
+![Jaccard coefficient limits](https://wikimedia.org/api/rest_v1/media/math/render/svg/896adf7fa55a30dfc437230e64c34524e278dc5c)
+
+
+The Jaccard distance, which measures dissimilarity between sample sets, is complementary to the 
+Jaccard coefficient and is obtained by subtracting the Jaccard coefficient from 1, or, equivalently, 
+by dividing the difference of the sizes of the union and the intersection of two sets by the size of the union
+
+Given two objects, A and B, each with n binary attributes, the Jaccard coefficient is a useful measure of the overlap that A and B share with their attributes. 
+Each attribute of A and B can either be 0 or 1.
+[src](https://en.m.wikipedia.org/wiki/Jaccard_index)
+
+Jaccard Similarity in Recommendation Engines:
+- Based on the number of users which have rated item A and B divided by the number of users who have rated either A or B
+- It is typically used where we don’t have a numeric rating but just a boolean value like a item being bought or an add being clicked
+
+One-Hot Encoding
+---
+Transform categorical features with n possible values into n binary features, having only one active.
+[src](http://scikit-learn.org/stable/modules/preprocessing.html#encoding-categorical-features)
+
+
+Missing Values
+---
+- Discard entire rows and/or columns containing missing values - comes at the price of losing data which may be valuable
+ (even though incomplete). 
+  
+- Impute the missing values - infer them from the known part of the data
+
+
+Pearson Similarity (Pearson correlation coefficient)
+---
+Or Pearson's r, or Pearson product-moment correlation coefficient (PPMCC) or bivariate correlation is a measure of the linear correlation between two variables X and Y. 
+It has a value between +1 and −1, where 1 is total positive linear correlation, 0 is no linear correlation, and −1 is total negative linear correlation. 
+
+the covariance of two variables divided by the product of their standard deviations:
+![Pearson's](img/Pearsons.svg)
+
+[src](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient)
 
