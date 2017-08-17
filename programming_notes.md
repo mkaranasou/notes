@@ -428,3 +428,15 @@ asyncio.ensure_future(display_date(2, loop))
 
 loop.run_forever()
 ```
+
+
+# C# The Visitor pattern
+
+[src](https://www.codeproject.com/Articles/588882/TheplusVisitorplusPatternplusExplained)
+
+
+# Python desing patterns and idioms
+
+[src1](https://www.toptal.com/python/python-design-patterns)
+
+[src2](https://github.com/faif/python-patterns)

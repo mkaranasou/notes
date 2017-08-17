@@ -500,13 +500,16 @@ plt.show()
 ```
 
 - Box & Whisker Plot
-Useful for visualizing the spread & skew of data
+
+Useful for visualizing the spread & skew of data.
+
 The red line represents the median of the data and
-the box represents the bounds of the 1st and 3rd quartiles
-Half the data exists within the box
-The dotted line "whiskers" indicate the range of the data
-- except for ouliers which ar plotted outside the whiskers.
-Outliers are 1.5x or more the interquartile range
+the box represents the bounds of the 1st and 3rd quartiles.
+
+Half the data exists within the box.
+
+The dotted line "whiskers" indicate the range of the data - except for outliers which ar plotted outside the whiskers.
+Outliers are 1.5x or more the interquartile range.
 
 ```python
 uniform_skewed = np.random.rand(100) * 100 - 40  # uniformely distributed numbers between -40 and 60
@@ -539,15 +542,19 @@ Correlation
 --------------------------------------------------------------------
 ![xkcd:correlation](https://imgs.xkcd.com/comics/correlation.png)
 
-Correlation is to solve the problem of how large is large
-Correlation does NOT imply causation
+Correlation is to solve the problem of how large is large.
 
-Divide covariance by the standard deviations of both variables to normalize things
-Correlation of -1 means perfect inverse correlation
-Correlation of 0 means no correlation
-Correlation of 1 means perfect correlation
+Correlation does NOT imply causation!
 
-Use correlation to decide about what experiments to run
+Divide covariance by the standard deviations of both variables to normalize things.
+
+Correlation of -1 means perfect inverse correlation.
+
+Correlation of 0 means no correlation.
+
+Correlation of 1 means perfect correlation.
+
+Use correlation to decide about what experiments to run.
 
 #### the hard way
 
@@ -617,8 +624,11 @@ Which means that the probability of something that depends on B depends on the p
 A/B Testing
 ------------------------------------------------------------------------
 A Control set of people --> orange button
+
 A Test set of people --> blue button
+
 --> Measure the difference!
+
 1. Identify the metric you wan to optimize for:
 - Order amounts
 - Profit
@@ -1248,6 +1258,12 @@ Romance 8       2       12      3       1
     - If a person likes A, B and another person likes B, C then they have similar interests and what the first person likes 
     can be something the second person likes also.
     This is based on past behavior - not on context, so no additional information.
+    
+    ##### E.g. Neighborhood Method:
+    We have a history of past ratings, we need to predict user A's ratings for movie T.
+    - Find useres that have the same taste as user A.
+    - Average their ratings of T.
+    
     ##### Types:
     - User to User:
         Find similar users and suggest products that one of the users in the similar groups has chosen in the past.
@@ -1259,6 +1275,10 @@ Romance 8       2       12      3       1
         with the first purchase you can update the similarity groups of items - you don't need another user etc.
         The number of items is also fixed - or at least it doesn't grow with the same rate as the number of users.
     - Other algorithms - simpler but not as good as the above. E.g. Market basket analysis.    
+
+### [Surprise lib](www.surpriselib.com)
+Rating prediction only, not regression or classification.
+[src](https://www.youtube.com/watch?v=z0dx-YckFko)
 
 ### Evaluation of RE:
 - Recall:
