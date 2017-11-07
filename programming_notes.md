@@ -440,3 +440,100 @@ loop.run_forever()
 [src1](https://www.toptal.com/python/python-design-patterns)
 
 [src2](https://github.com/faif/python-patterns)
+
+## The MVC Pattern
+    [           Model            ]
+        ^                   |
+        |                   |
+    Manipulates      Returns data
+        |                   V
+        [   Controller    ]
+            ^           |
+            |           |
+            |        Updates / Renders
+          Uses          |
+            |           V
+        [ User ]    [ View ]
+
+
+- Model:
+Responsible for maintaining the integrity of the data
+Should not work directly wirh the view.
+- View:
+Responsible for the visualization of the data.
+Should not access database directly or be heavy in logic.
+- Controller:
+The bridge between individual components of the system. Receives data from requests and sends it to other parts of the system.
+Should not render data or work with the database and business logic directly.
+
+
+## Singleton Pattern - Only one object
+When:
+- Need to control concurrent access to a shared resource, e.g. database connection
+- Need a global point of access for the resource from multiple or different parts of the system.
+- Need to have only one instance of an object.
+
+Examples:
+- The logging class and its subclasses
+- Printer spooler
+- Database connection
+- File manager
+- Retrieving and storing information using external configuration files
+- Read only singletons for global states, e.g. user language
+
+Module-level Singleton:
+---
+Check if module is already imported: import the initialized module and use it else find, initialize and return the module
+Any access / import of the module after initialization will return the already initialized module.
+
+```python
+class Singleton(object):
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(Singleton, cls).__new__(cls)
+        return cls.instance
+```
+
+Identity comparison will return `True` when trying to compare two "instances" of the same Singleton, e.g.:
+```python
+>>> singleton_first = Singleton()
+>>> singleton_second = Singleton()
+>>> print(singleton_first is singleton_second)
+>>> True
+>>> class Child(Singleton):
+ ...    pass
+>>> child = Child()
+>>> child is singleton_first
+>>> False
+```
+
+The Borg singleton - monostate:
+---
+Shared state but **not** comparable through identity comparison `is`
+```python
+class Borg(object):
+    _shared_state = {}
+   
+    def __new__(cls, *args, **kwargs):
+        obj = super(Borg, cls).__new__(cls, *args, **kwargs)
+        obj.__dict__ = cls._shared_state
+        return obj
+
+class Child(Borg):
+    pass
+
+>>> borg = Borg()
+>>> borg.name = "Borg"
+>>> child = Child()
+>>> child.name
+>>> Borg
+
+# however:
+class IndependentChild(object):
+    _shared_state = {}
+
+>>> independent_child = IndependentChild()
+>>> independent_child.name
+AttributeError:
+
+```
