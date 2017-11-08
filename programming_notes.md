@@ -529,11 +529,28 @@ class Child(Borg):
 >>> Borg
 
 # however:
-class IndependentChild(object):
+class IndependentChild(Borg):
     _shared_state = {}
 
 >>> independent_child = IndependentChild()
 >>> independent_child.name
-AttributeError:
-
+AttributeError: 'IndependentChild' object has no attribute 'name'
 ```
+Note: Modules in Python are singleton by nature
+
+## Factory Pattern
+- Factories provide loose coupling, separating object creation and specific class implementation
+- The Factory class can reuse existing objects.
+- Direct instantiation always creates a new object
+- The class that uses the new object does not need to know exaclty which class' instance was created, just the interface that is implemented by that class.
+- To add a new class in a Factory: the class needs to implement the same interface.
+
+
+[ Client ] ---------- [ Factory ]
+    |                       |
+    |_______________ [  Abstract class  ]
+                        |       | .... |
+                [ Implement.1 ][ Implement.2 ][ Implement.N ]
+
+
+
