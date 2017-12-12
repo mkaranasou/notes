@@ -546,11 +546,28 @@ Note: Modules in Python are singleton by nature
 - To add a new class in a Factory: the class needs to implement the same interface.
 
 
+```
 [ Client ] ---------- [ Factory ]
     |                       |
-    |_______________ [  Abstract class  ]
-                        |       | .... |
+    |_______________ [       Abstract class         ]
+                        |       |    ....          |
                 [ Implement.1 ][ Implement.2 ][ Implement.N ]
+```
 
 
 
+```
+class ProtocolFactory(object):
+    @staticmethod 
+    def build_connection(protocol):
+        if protocol == 'http':
+            return HTTPConnection()
+        elif protocol == 'ftp':
+          return FTPConnection()
+        raise RuntimeError('Unknown protocol')
+
+if __name__ == '__main__':
+    protocol = ProtocolFactory.build_connection('http)
+    protocol.connect()
+    print protocol.get_response()
+```
