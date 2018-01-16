@@ -598,7 +598,7 @@ class ProtocolFactory(object):
         raise RuntimeError('Unknown protocol')
 
 if __name__ == '__main__':
-    protocol = ProtocolFactory.build_connection('http)
+    protocol = ProtocolFactory.build_connection('http')
     protocol.connect()
     print protocol.get_response()
 ```
