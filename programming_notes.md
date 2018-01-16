@@ -557,6 +557,37 @@ Note: Modules in Python are singleton by nature
 
 
 ```
+import abc
+
+
+class Connection(object):
+    __metaclass__ =  abc.ABCMeta
+    
+    def __init__():
+        pass
+    
+    @abc.abstractmethod
+    def get_response():
+        pass
+
+class HTTPConnection(Connection):
+    def __init__():
+        super(HTTPConnection, self).__init__()
+
+    def get_response():
+        # do something here to get a response
+        return 'Hello from HTTP'
+
+
+class FTPConnection(Connection):
+    def __init__():
+        super(FTPConnection, self).__init__()
+
+    def get_response():
+        # do something here to get a response
+        return 'Hello from FTP'
+
+
 class ProtocolFactory(object):
     @staticmethod 
     def build_connection(protocol):
@@ -571,3 +602,37 @@ if __name__ == '__main__':
     protocol.connect()
     print protocol.get_response()
 ```
+
+
+
+# What is the CAP theorem?
+The CAP theorem states that in the presence of a network partition, one has to choose between consistency and availability.
+In more detail:
+The CAP theorem, or Brewer's theorem (Eric Brewerer) states that it is impossible for a distributed data store to simultaneously provide more than
+two of the following three guarantees:
+
+0. Consistency: Every read receives the most recent write or an error
+1. Availability: Every request reveives a (non-error) response, without guarantee that it is the most recent write
+2. Partition Tolerance: The system continues to operate despite an arbitrary number of messages being dropped (or delayed) by the network between the nodes.
+
+The last one has to be tolerated in general, thus there is a choice between consistency and availability.
+
+[src](https://en.wikipedia.org/wiki/CAP_theorem)
+
+
+# ACID
+
+## Atomicity
+Each transaction will be all or nothing. If something goes wrong, the entire transaction fails (rollback)
+
+## Consistency
+The transaction will bring the database from one valid state to another, which means that any data written must follow the defined rules, for example,
+the constraints, the cascade, the triggers and any combination of them.  Programming errors cannot result in violation in any of the aforementioned rules.
+
+## Isolation
+Ensures that the concurrent execution of transactions results in a system state that would be obtained if transactions where executed sequentially.
+
+## Durability
+Once a transaction has been committed, it will remain so, even in the event of a power loss, crashes and / or errors.
+
+[src](https://en.wikipedia.org/wiki/ACID#Atomicity)
