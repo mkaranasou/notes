@@ -1413,3 +1413,33 @@ Singular Value Decomposition (SVD)
 tbd
 
 [src](http://web.mit.edu/be.400/www/SVD/Singular_Value_Decomposition.htm)
+
+
+Distance / Similarity Metrics
+---
+## Levenshtein
+Levenshtein distance is a string metric for measuring the difference between two sequences. Informally, the Levenshtein distance between two words is the minimum number of single-character edits (insertions, deletions or substitutions) required to change one word into the other [src](https://en.wikipedia.org/wiki/Levenshtein_distance)
+
+## Path - based
+### Shortest Path
+- It is the count of edges between concepts. 
+- Simple
+- But two pairs with the same count will have the same similarity.
+
+### Wu-Palmer
+- The path length to subsumer, scaled by the path length to root.
+- Simple
+- But two pairs with the same count will have the same similarity.
+
+## Information Context - based
+### Resnik
+- IC of lso (the more common information content between two words the more similar)
+- Simple
+- But two pairs with the same lso will have the same similarity.
+
+### Lin
+- IC of lso and the compared concepts
+- Take the IC of the compared concepts into consideration.
+- But two pairs with the same summation of the IC(concept1) and the IC(concept2) will have the same similarity.
+
+
