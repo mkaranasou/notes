@@ -636,3 +636,24 @@ Ensures that the concurrent execution of transactions results in a system state 
 Once a transaction has been committed, it will remain so, even in the event of a power loss, crashes and / or errors.
 
 [src](https://en.wikipedia.org/wiki/ACID#Atomicity)
+
+
+# General interview problems
+
+## Identify if anagram pair exists:
+
+Given a list of words, return True if at least one anagram pair exists, False otherwise
+
+```python
+possible_anagrams_list =['aann', 'nana', 'abaa', 'nnn]
+
+def has_anagram_couples(possible_anagrams_list):
+    """
+    :param: possible_anagrams_list list[str]:
+    :return: boolean, True if at least one anagram pair exists, False otherwise
+    """
+    unique_ordered_words = set([''.join(ordered(w)) for w in possible_anagrams_list])
+
+    return len(possible_anagrams_list) > len(unique_ordered_words)
+
+```
