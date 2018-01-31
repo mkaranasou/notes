@@ -736,15 +736,17 @@ How:
 
 Apache Spark
 -----------------------------------------------------------------------
-DAG engine: Directed Acyclic Graph  // Apache Flink can be cyclic
+DAG engine: Directed Acyclic Graph  (Apache Flink can be cyclic)
 DAG vertices are the Stages - there is a visualization tool to see how the stages and tasks are run.
 
 Spark GraphX is only Scala for now.
 
+### StandAlone deployment:
 
-StandAlone deployment:
+```
 SparkContext < --- >  Spark Master <----> Worker Node 1...n
             ^-------------------------------/^
+```
 In a cluster set up Spark Master == Mesos || Hadoop YARN Resource Manager
 
 
@@ -758,18 +760,19 @@ https://github.com/mahmoudparsian/pyspark-tutorial
 
 https://databricks.gitbooks.io/databricks-spark-reference-applications/content/logs_analyzer/chapter3/save_an_rdd_to_a_database.html
 
-MySQL
+### MySQL
 https://www.percona.com/blog/2016/08/17/apache-spark-makes-slow-mysql-queries-10x-faster/
 https://www.percona.com/blog/2015/10/07/using-apache-spark-mysql-data-analysis/
 
-mongodb
+### mongodb
 https://docs.mongodb.com/spark-connector/current/python-api/
 https://github.com/mongodb/mongo-hadoop/blob/master/spark/src/main/python/README.rst
 
-# packages
-https://spark-packages.org/package/freeman-lab/thunder
+### packages
+https://spark-packages.org/package/freeman-lab/thunder (404)
+https://github.com/freeman-lab/spark-ml-streaming 
 
-Books:
+### Books:
 ---
 http://isbn.directory/book/9781783288519
 http://it-ebooks.info/book/5767/
@@ -794,7 +797,7 @@ https://www.amazon.com/Apache-Spark-Beginners-Rajanarayanan-Thottuvaikkatumana/d
 
 https://www.amazon.com/Spark-Data-Science-Srinivas-Duvvuri/dp/1785885650/ref=pd_bxgy_14_img_2?_encoding=UTF8&pd_rd_i=1785885650&pd_rd_r=NAG6DNRYXF88TA5W39M3&pd_rd_w=XmdxV&pd_rd_wg=WqSxw&psc=1&refRID=NAG6DNRYXF88TA5W39M3
 
-
+### Spark Notes
 Spark has to serialize data ... a lot
 
 - RDD Resilient Distributed Dataset
