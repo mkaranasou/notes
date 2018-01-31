@@ -1443,3 +1443,9 @@ Levenshtein distance is a string metric for measuring the difference between two
 - But two pairs with the same summation of the IC(concept1) and the IC(concept2) will have the same similarity.
 
 
+# Chat-bots
+- NLU
+- How to build a chat-bot:
+https://www.analyticsvidhya.com/blog/2018/01/faq-chatbots-the-future-of-information-searching/
+
+
