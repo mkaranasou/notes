@@ -657,3 +657,71 @@ def has_anagram_couples(possible_anagrams_list):
     return len(possible_anagrams_list) > len(unique_ordered_words)
 
 ```
+
+## List Overlap
+
+Take two lists, say for example these two:
+```
+a = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+b = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+```
+and write a program that returns a list that contains only the elements that are common 
+between the lists (without duplicates). Make sure your program works on two lists of different sizes.
+
+Extras:
+
+Randomly generate two lists to test this
+Write this in one line of Python (don’t worry if you can’t figure this out at this point - we’ll get to it soon)
+
+```
+def get_common_with_sets(list_a, list_b):
+    """
+    Returns a list with the common unique elements of the two lists
+    :return: list[int]
+    """
+    return list(set(list_a).intersection(set(list_b)))
+
+# or
+
+def get_common_with_comprehension(list_a, list_b):
+    """
+    Returns a list with the common unique elements of the two lists
+    :return: list[int]
+    """
+    return [i for i in list_a if i in list_b]
+
+
+if __name__ == "__main__":
+    from random import randint
+    a = range(randint(0, 50))
+    b = range(randint(12, 34))
+
+    common_set = get_common_with_sets(a, b) 
+    common_comprehension = get_common_with_comprehension(a, b)
+
+    assert common_set == common_comprehension
+    assert common_set == [i for i in a if i in b]
+```
+
+## Divisors
+
+Create a program that asks the user for a number and then prints out a list of all the divisors of that number.
+
+```
+num = None
+
+while not isinstance(num, int):
+    num = raw_input('Please, enter a number:')
+    try:
+        num = int(num)
+    except ValueError:
+        print 'Invalid value'
+
+divisors = []
+for i in range(1, num):
+    if num % i == 0:
+        divisors.append(i)
+
+print 'The divisors are: {}'.format(','.join([str(d) for d in divisors]))
+
+```
