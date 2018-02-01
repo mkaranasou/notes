@@ -640,6 +640,8 @@ Once a transaction has been committed, it will remain so, even in the event of a
 
 # General interview problems
 
+[src1](http://www.practicepython.org/)
+
 ## Identify if anagram pair exists:
 
 Given a list of words, return True if at least one anagram pair exists, False otherwise
@@ -724,4 +726,125 @@ for i in range(1, num):
 
 print 'The divisors are: {}'.format(','.join([str(d) for d in divisors]))
 
+```
+
+## String Lists
+Ask the user for a string and print out whether this string is a palindrome or not. (A palindrome is a string that reads the same forwards and backwards.)
+
+```
+def is_palindrome(possible_palindrome):
+    return possible_palindrome[::-1] ==  possible_palindrome
+
+
+possible_palindrome = raw_input('Please, enter a string:')
+possible_palindrome = possible_palindrome.replace(' ','').lower()
+
+while not possible_palindrome:
+    print "Please enter more characters"
+    possible_palindrome = raw_input('Please, enter a string:')
+    possible_palindrome = possible_palindrome.replace(' ','').lower()
+
+if is_palindrome(possible_palindrome):
+    print "Is palindrome!"
+else:
+    print "Not a palindrome!"
+
+```
+
+
+## List Comprehensions
+Let’s say I give you a list saved in a variable: `a = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]`. 
+Write one line of Python that takes this list a and makes a new list that has only the even elements of this list in it.
+
+```
+a = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+even_a = [num in a if num % 2 == 0]
+```
+
+## Rock Paper Scissors
+Make a two-player Rock-Paper-Scissors game. 
+(Hint: Ask for player plays (using input), compare them, print out a message of congratulations to the winner, and ask if the players want to start a new game)
+
+Remember the rules:
+
+Rock beats scissors
+Scissors beats paper
+Paper beats rock
+
+```
+moves = {
+    'rock': 'scissors',
+    'paper': 'rock',
+    'scissors': 'paper',
+}
+
+users = ['First', 'Second']
+moves_list = ','.join(moves.keys())
+input_template = '{} user, please enter your choice from ' + moves_list
+verdict_template =  "{} player wins! {} beats {}"
+# show the options
+more_or_q = ''
+while more_or_q != 'q':
+    choices = []
+    for user in users:
+        valid = False
+        while True:
+            choice = raw_input(input_template.format(user)).lower()
+            valid = choice in moves
+            if not valid:
+                print "Not a valid input, please choose from {}".format(moves_list)
+            else:
+                choices.append(choice)
+                break
+            
+    a = choices[0]
+    b = choices[1]
+    if a == b:
+        print "Tie!"
+    # a beats b
+    elif moves[a] == b:
+        print verdict_template.format(users[0], a, b)
+    else:  # a does not beat b
+        print verdict_template.format(users[1], b, a)
+    more_or_q = raw_input('Enter q to quit or anything else to continue playing:')
+```
+
+## Guessing game
+Generate a random number between 1 and 9 (including 1 and 9). 
+Ask the user to guess the number, then tell them whether they guessed too low, too high, or exactly right.
+
+Extras:
+
+- Keep the game going until the user types q
+- Keep track of how many guesses the user has taken, and when the game ends, print this out.
+
+```
+from random import randint
+
+correct_guesses = 0
+more_or_q = ''
+choice = randint(1, 10)
+
+print "Let's play a guessing game!\nI have chosen a number between 1 and 9, try to guess it!"
+
+while more_or_q != 'q':
+    
+    while True:
+        try:
+            guess = int(raw_input("Enter your guess!"))
+            break
+        except ValueError:
+            print "Not a number!"
+    if choice == guess:
+        correct_guesses += 1
+        print "That's correct! The chosen number is {}".format(choice)
+        # Choose a different number since the player guessed correctly
+        choice = randint(1, 10)
+    else:
+        print "Unfortunatelly not correct. The number you guessed is {} than the number chosen.".format(
+            "higher" if choice-guess < 0 else "lower"
+            )
+    more_or_q = raw_input('Enter q to quit or anything else to continue playing:')
+
+print "Number of correct guesses: {}".format(correct_guesses)
 ```
