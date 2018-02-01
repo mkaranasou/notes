@@ -709,7 +709,7 @@ if __name__ == "__main__":
 
 Create a program that asks the user for a number and then prints out a list of all the divisors of that number.
 
-```
+```python
 num = None
 
 while not isinstance(num, int):
@@ -731,7 +731,7 @@ print 'The divisors are: {}'.format(','.join([str(d) for d in divisors]))
 ## String Lists
 Ask the user for a string and print out whether this string is a palindrome or not. (A palindrome is a string that reads the same forwards and backwards.)
 
-```
+```python
 def is_palindrome(possible_palindrome):
     return possible_palindrome[::-1] ==  possible_palindrome
 
@@ -756,7 +756,7 @@ else:
 Let’s say I give you a list saved in a variable: `a = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]`. 
 Write one line of Python that takes this list a and makes a new list that has only the even elements of this list in it.
 
-```
+```python
 a = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 even_a = [num in a if num % 2 == 0]
 ```
@@ -771,7 +771,7 @@ Rock beats scissors
 Scissors beats paper
 Paper beats rock
 
-```
+```python
 moves = {
     'rock': 'scissors',
     'paper': 'rock',
@@ -818,7 +818,7 @@ Extras:
 - Keep the game going until the user types q
 - Keep track of how many guesses the user has taken, and when the game ends, print this out.
 
-```
+```python
 from random import randint
 
 correct_guesses = 0
@@ -848,3 +848,113 @@ while more_or_q != 'q':
 
 print "Number of correct guesses: {}".format(correct_guesses)
 ```
+
+## Check Primality Functions
+
+```
+Ask the user for a number and determine whether the number is prime or not. 
+(A prime number is a number that has no divisors.)
+
+```python
+more_or_q = ''
+while more_or_q != 'q':
+    while True:
+        try:
+            guess = int(raw_input("Enter a number to check for primality!"))
+            break
+        except ValueError:
+            print "Not a number!"
+
+    if guess <=1:
+        print "Not a prime number."
+    is_prime = True
+
+    for i in range(2, guess):
+        if guess % i == 0:
+            is_prime = False
+            break
+
+    print "It is a prime number!" if is_prime else "Not a prime number."
+    more_or_q = raw_input('Enter q to quit or anything else to continue playing:')
+
+```
+
+## List Ends
+
+Write a program that takes a list of numbers (for example, a = [5, 10, 15, 20, 25]) and 
+makes a new list of only the first and last elements of the given list. 
+
+```python
+
+def first_and_last_list(input_list):
+    if input_list:
+        return [input_list[0], input_list[-1]] if len(input_list) > 1 else return [input_list[0]]
+    return []
+
+if __name__ == "__main__":
+    a = [5, 10, 15, 20, 25]
+    result = first_and_last_list(a)
+    assert result == [5, 25]
+    result = first_and_last_list([])
+    assert result == []
+    result = first_and_last_list([1])
+    assert result == [1]
+
+```
+
+## Fibonacci
+
+Write a program that asks the user how many Fibonnaci numbers to generate and then generates them. 
+Make sure to ask the user to enter the number of numbers in the sequence to generate.
+(Hint: The Fibonnaci seqence is a sequence of numbers where the next number in the sequence is the sum of the previous two numbers in the sequence. 
+The sequence looks like this: 1, 1, 2, 3, 5, 8, 13, …)
+
+```python
+more_or_q = ''
+while more_or_q != 'q':
+    while True:
+        try:
+            num = int(raw_input("Enter the number of Fibonnaci numbers to generate:"))
+            break
+        except ValueError:
+            print "Not a number!"
+    fibonnaci = []
+    for i in range(0, num + 1):
+        if len(fibonnaci) > 1:
+            fibonnaci.append(fibonnaci[i-2] + fibonnaci[i-1])
+        else:
+            fibonnaci.append(1)
+
+    print "Your Fibonnaci sequence is: {}".format(",".join([str(f) for f in fibonnaci]))
+    more_or_q = raw_input('Enter q to quit or anything else to continue playing:')
+```
+
+## Reverse Word Order
+Write a program (using functions!) that asks the user for a long string containing multiple words. 
+Print back to the user the same string, except with the words in backwards order. 
+For example, say I type the string: `My name is Michele`
+Then I would see the string:`Michele is name My` shown back to me.
+
+```python
+more_or_q = ''
+while more_or_q != 'q':
+    while True:
+        words = raw_input("Enter the string of words to reverse:")
+        if words:
+            break
+        else:
+            print "Empty string."
+
+    # doesn't take punctuation into account
+    print " ".join(words.split(' ')[::-1])
+    more_or_q = raw_input('Enter q to quit or anything else to try again:')
+```
+
+## Password Generator
+Write a password generator in Python. Be creative with how you generate passwords - strong passwords have a mix of lowercase letters, 
+uppercase letters, numbers, and symbols. 
+The passwords should be random, generating a new password every time the user asks for a new password. 
+Include your run-time code in a main method.
+
+Extra:
+- Ask the user how strong they want their password to be. For weak passwords, pick a word or two from a list.
