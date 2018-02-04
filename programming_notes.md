@@ -70,7 +70,31 @@ If you are searching in a list with n length, start from n/2 and work your way
 to your solution - the list must be ordered.
 Complexity is O(log(n))
 
-Traveling Salesman:
+Think about when you have to look up a name in the phonebook (age alert!!), if the name doesn't begin with A, but let's say
+with K, then it makes more sense to open the phonebook somewhere in the middle. The same goes when looking up a word in a
+dictionary and with when searching in a sorted list.
+
+```
+number = 8
+numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+low = numbers[0]  # 0 is the lowest number in the list
+high = numbers[-1]  # 9 is the highest number in the list
+while low <=high:
+    middle = len(numbers) / 2 = 5
+    guess = numbers[middle]
+    is guess == number?   # 5 != 8
+        yes: break and say we found the number in the list!
+        no: continue
+    is guess > number?    # 5 < 8
+        yes: look in the first half of the list, numbers[:middle]
+            high = middle - 1
+        no: look in the second half of the list # this will be true
+            high = middle + 1
+
+
+```
+
+### Traveling Salesman
 - Look at every possible order in which he could travel to the cities
 - Adds up the total distance
 - Pick the path with the lowest distance
@@ -1102,4 +1126,155 @@ while more_or_q != 'q':
         more_or_q = 'q'
     else:
         more_or_q = raw_input('Enter q to quit or anything else to try again:')
+```
+
+## Decode A Web Page Two
+
+Using the requests and BeautifulSoup Python libraries, print to the screen the full text of the article 
+on this website: http://www.vanityfair.com/society/2014/06/monica-lewinsky-humiliation-culture.
+The article is long, so it is split up between 4 pages. 
+Your task is to print out the text to the screen so that you can read the full article without having to click any buttons.
+This will just print the full text of the article to the screen. 
+It will not make it easy to read, so next exercise we will learn how to write this text to a .txt file.
+
+```python
+import requests
+from bs4 import BeautifulSoup
+
+url = 'http://www.vanityfair.com/society/2014/06/monica-lewinsky-humiliation-culture'
+r = requests.get(url)
+r_html = r.text
+soup = BeautifulSoup(r_html, 'html.parser')
+for section in soup.find_all(class_="content-section"):
+        if section.p:
+            print(section.p.text.replace("\n", " ").strip().encode('utf-8'))
+```
+
+## Element Search
+Write a function that takes an ordered list of numbers (a list where the elements are in order from smallest to largest) 
+and another number. The function decides whether or not the given number is inside the list and returns (then prints) 
+an appropriate boolean.
+
+Extras:
+- Use binary search.
+
+```python
+
+def is_in_list(sorted_num_list, number):
+    """
+    Returns True if number in sorted_num_list, else False
+    """
+
+    low = 0
+    high = len(sorted_num_list) - 1
+    # check for early exits
+    if number < sorted_num_list[low] or number > sorted_num_list[high]:
+        return False
+    if number == sorted_num_list[low] or number == sorted_num_list[high]:
+        return True
+
+    while low <= high:
+        middle = (low + high) / 2
+        item = sorted_num_list[middle]
+
+        if item == number:
+            return True
+        if item > number:
+            high = middle - 1
+        else:
+            low = middle + 1
+
+    return False
+```
+
+## Write To A File
+Take the code from the How To Decode A Website exercise
+(if you didn’t do it or just want to play with some different code, use the code from the solution),
+and instead of printing the results to a screen, write the results to a txt file.
+In your code, just make up a name for the file you are saving to.
+
+Extras:
+
+- Ask the user to specify the name of the output file that will be saved.
+
+```python
+import requests
+from bs4 import BeautifulSoup
+
+def get_website_content_to_file(file_path="temp.txt"):
+    url = 'http://www.vanityfair.com/society/2014/06/monica-lewinsky-humiliation-culture'
+    r = requests.get(url)
+    r_html = r.text
+    soup = BeautifulSoup(r_html, 'html.parser')
+
+    with open(file_path, 'wb') as mon_file:
+        for section in soup.find_all(class_="content-section"):
+            if section.p:
+                mon_file.write(section.p.text.replace("\n", " ").strip().encode('utf-8'))
+
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filepath", default='temp.txt')
+    args = parser.parse_args()
+    get_website_content_to_file(args.filepath)
+
+or
+
+filepath = raw_input('Please enter the full file path to save the content to:')
+get_website_content_to_file(filepath)
+
+```
+
+
+## Read From File
+Given a .txt file that has a list of a bunch of names, count how many of each name there are in the file,
+and print out the results to the screen. I have a .txt file for you, if you want to use it!
+
+Extra:
+
+- Instead of using the .txt file from above (or instead of, if you want the challenge),
+take this .txt file, and count how many of each “category” of each image there are.
+This text file is actually a list of files corresponding to the SUN database scene recognition database,
+and lists the file directory hierarchy for the images.
+Once you take a look at the first line or two of the file, it will be clear which part represents the scene category.
+To do this, you’re going to have to remember a bit about string parsing in Python 3. I talked a little bit about it in this post.
+
+
+```python
+
+def read_files():
+    names_file = './data/test_names.txt'
+    categories_file = './data/test_categories.txt'
+
+    names = defaultdict(int)
+    categories = defaultdict(int)
+
+    with open(names_file) as nf:
+        for line in nf.readlines():
+            names[line.strip()] += 1
+
+    print names
+
+    with open(categories_file) as cf:
+        for line in cf.readlines():
+            split_line = line.strip().split('/')
+            if len(split_line) > 4:
+                c = '_'.join(split_line[2:4])
+            else:
+                c = split_line[2]
+            categories[c] += 1
+
+    print categories
+
+```
+
+## File Overlap
+Given two .txt files that have lists of numbers in them, find the numbers that are overlapping.
+One .txt file has a list of all prime numbers under 1000, and the other .txt file has a list of happy numbers up to 1000.
+
+```python
+
+
 ```
