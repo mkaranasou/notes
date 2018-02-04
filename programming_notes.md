@@ -1275,6 +1275,76 @@ Given two .txt files that have lists of numbers in them, find the numbers that a
 One .txt file has a list of all prime numbers under 1000, and the other .txt file has a list of happy numbers up to 1000.
 
 ```python
-
+def file_overlap():
+    with open('./data/primenumbers.txt') as prime:
+        primes = [int(n) for n in prime.readlines()]
+        with open('./data/happynumbers.txt') as happyf:
+            happy = [int(n) for n in happyf.readlines()]
+            print [n for n in happy if n in primes]
 
 ```
+
+## Draw A Game Board
+
+Time for some fake graphics! Let’s say we want to draw game boards that look like this:
+```
+ --- --- ---
+|   |   |   |
+ --- --- ---
+|   |   |   |
+ --- --- ---
+|   |   |   |
+ --- --- ---
+```
+This one is 3x3 (like in tic tac toe). Obviously, they come in many other sizes (8x8 for chess, 19x19 for Go, and many more).
+
+Ask the user what size game board they want to draw, and draw it for them to the screen using Python’s print statement.
+
+```python
+def get_board():
+    board_dimensions = None
+
+    while not board_dimensions:
+        try:
+            user_input = raw_input(
+                "Please enter the board dimesions, width x height, separated by x, e.g. 3x3:")
+            user_input = user_input.strip().lower()
+
+            if 'x' not in user_input:
+                raise ValueError('Not a valid input')
+            if len(user_input) >= 3:
+                board_dimensions = [int(x) for x in user_input.split('x')]
+        except Exception as e:
+            print e.message
+
+    s = ' '
+    n = '\n'
+    v = '|' + 3 * s
+    h = '----'
+
+    board = ''
+
+    for i in range(board_dimensions[1]):
+        board += board_dimensions[0] * h
+        board += n
+        board += (board_dimensions[0] + 1) * v
+        board += n
+    # final line
+    board += board_dimensions[0] * h
+    board += n
+
+    print board
+
+```
+
+## Guessing Game Two
+
+You, the user, will have in your head a number between 0 and 100.
+The program will guess a number, and you, the user, will say whether it is too high, too low, or your number.
+At the end of this exchange, your program should print out how many guesses it took to get your number.
+As the writer of this program, you will have to choose how your program will strategically guess.
+A naive strategy can be to simply start the guessing at 1, and keep going (2, 3, 4, etc.) until you hit the number.
+But that’s not an optimal guessing strategy.
+An alternate strategy might be to guess 50 (right in the middle of the range),
+and then increase / decrease by 1 as needed. After you’ve written the program,
+try to find the optimal strategy!
