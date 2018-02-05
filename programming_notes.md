@@ -74,13 +74,13 @@ Think about when you have to look up a name in the phonebook (age alert!!), if t
 with K, then it makes more sense to open the phonebook somewhere in the middle. The same goes when looking up a word in a
 dictionary and with when searching in a sorted list.
 
-```
+```python
 number = 8
 numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 low = numbers[0]  # 0 is the lowest number in the list
 high = numbers[-1]  # 9 is the highest number in the list
 while low <=high:
-    middle = len(numbers) / 2 = 5
+    middle = len(numbers) / 2  # = 5
     guess = numbers[middle]
     is guess == number?   # 5 != 8
         yes: break and say we found the number in the list!
@@ -265,6 +265,67 @@ todo: example
  src: Better Explained
  ```
 
+# Python
+
+## Context Managers
+Two ways to write context managers:
+
+```python
+class ManagedFile(object):
+    def __init__(self, name, handle='rb'):
+        self.name =  name
+        self.handle = handle
+        
+    def __enter__(self):
+        self.file = open(self.name, self.handle)
+        return self.file
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.file.close()
+
+```
+
+or:
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def managed(name, handle='rb'):
+    try:
+        f = open(name, handle)
+        yield f
+    finally:
+        f.close()    
+
+```
+
+A good example of usage would be to create an indenter:
+
+```python
+
+class Indenter(object):
+    def __init__(self):
+        self.level = 0
+    
+    def __enter__(self):
+        self.level += 1
+        return self
+        
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.level -= 1
+   
+    def print_text(self, text):
+        print ' ' * self.level + text
+
+
+with Indenter as indent:
+    indent.print_text('hi')
+    with indent:
+        indent.print_text('hi from second level')
+indent.print_text('hi from unindented')
+
+```
 
 
 # Python 3 Features
@@ -1348,3 +1409,152 @@ But that’s not an optimal guessing strategy.
 An alternate strategy might be to guess 50 (right in the middle of the range),
 and then increase / decrease by 1 as needed. After you’ve written the program,
 try to find the optimal strategy!
+
+```python
+from random import randint
+
+
+print "Pick a number from 0 to 100 and keep it in mind"
+ready = raw_input("Press enter when ready.")
+found = False
+guess_list = range(0, 101)
+guesses = []
+guidance = ['y', 'lower', 'higher']
+
+while not found:
+    guess = randint(guess_list[0], guess_list[-1])
+    guesses.append(guess)
+    print "My guess is {}".format(guess)
+
+    user_confirmation = raw_input(
+        "If this is correct enter y else enter lower or higher to guide me")
+
+    while user_confirmation not in guidance:
+        user_confirmation = raw_input(
+            "Not a valid option, please enter y if correct, else enter lower "
+            "or higher to guide me"
+        )
+
+    if user_confirmation == 'y':
+        found = True
+
+    elif user_confirmation == 'lower':
+        # narrow down the guess list to include only lower than the current
+        # guess numbers
+        guess_list = guess_list[:guess_list.index(guess)]
+
+    elif user_confirmation == 'higher':
+        # narrow down the guess list to include only higher than the current
+        # guess numbers
+        guess_list = guess_list[guess_list.index(guess)+1:]
+
+print "It took me {} guesses to figure this out!".format(len(guesses))
+```
+
+```python
+from random import randint
+
+
+print "Pick a number from 0 to 100 and keep it in mind"
+ready = raw_input("Press enter when ready.")
+found = False
+guess_list = range(0, 101)
+guesses = []
+guidance = ['y', 'lower', 'higher']
+
+low = guess_list[0]
+high = guess_list[-1]
+user_confirmation = None
+
+while low <= high and user_confirmation != 'y':
+    # start with low and high?
+    middle = (low + high) / 2
+    # remove old guesses from guess_list
+    # guess_list = list(set(guess_list).difference(set(guesses)))
+    print guess_list
+    guess = guess_list[middle]
+    guesses.append(guess)
+    print "My guess is {}".format(guess)
+
+    user_confirmation = raw_input(
+        "If this is correct enter y else enter lower or higher to guide me")
+
+    while user_confirmation not in guidance:
+        user_confirmation = raw_input(
+            "Not a valid option, please enter y if correct, else enter lower "
+            "or higher to guide me"
+        )
+
+    if user_confirmation == 'y':
+        found = True
+
+    elif user_confirmation == 'lower':
+        # narrow down the guess list to include only lower than the current
+        # guess numbers
+        high = middle - 1
+
+    elif user_confirmation == 'higher':
+        # narrow down the guess list to include only higher than the current
+        # guess numbers
+        low = middle + 1
+
+print "It took me {} guesses to figure this out!".format(len(guesses))
+
+```
+
+## Check Tic Tac Toe
+
+If a game of Tic Tac Toe is represented as a list of lists, like so:
+
+```python
+game = [[1, 2, 0],
+	    [2, 1, 0],
+	    [2, 1, 1]]
+```
+
+where a 0 means an empty square, 
+a 1 means that player 1 put their token in that space, 
+and a 2 means that player 2 put their token in that space.
+Given a 3 by 3 list of lists that represents a Tic Tac Toe game board, 
+tell me whether anyone has won, 
+and tell me which player won, if any. 
+A Tic Tac Toe win is 3 in a row - either in a row, a column, or a diagonal.
+Don’t worry about the case where TWO people have won - 
+assume that in every board there will only be one winner.
+
+```python
+def generate_board(w, h):
+    s = ' '
+    n = '\n'
+    vl = '|' + 3 * s
+    hl = '----'
+
+    board = ''
+
+    for i in range(h):
+        board += w * hl
+        board += n
+        board += (w + 1) * vl
+        board += n
+    # final line
+    board += w * vl
+    board += n
+
+    print board
+
+
+def generate_random_matrices(w, h, low=0, high=2):
+    from random import randint
+    matrix = [[randint(low, high)] * w for _ in range(h)]
+
+    print matrix
+    return matrix
+
+
+def assess_winner(matrix):
+    winning_rules = []
+
+
+generate_random_matrices(3, 3)
+
+```
