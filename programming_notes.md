@@ -1795,68 +1795,70 @@ def is_input_num_tuple(str_input):
         return None
 
 
-valid_pawns = ['X', 'O']
-
-print "This is a game of Tic Tac Toe."
-matrix = get_orthogonal_matrix(3)
-print matrix
-print get_stringified_board(matrix)
-
-pawn_player_1 = None
-x, y = None, None
-
-while pawn_player_1 not in valid_pawns:
-    pawn_player_1 = raw_input("Player 1: Please select your pawn: X or O") \
-        .upper()
-
-pawn_player_2 = valid_pawns[0] \
-    if valid_pawns.index(pawn_player_1) == 1 else valid_pawns[1]
-
-players_to_pawns = OrderedDict()
-players_to_pawns["Player 1"] = pawn_player_1
-players_to_pawns["Player 2"] = pawn_player_2
-
-print players_to_pawns, players_to_pawns.keys()
-victory_or_done = False
-while not victory_or_done:
-    for p in players_to_pawns.keys():
-        current_pawn = players_to_pawns[p]
-        print "Currently playing with {}".format(current_pawn)
-        while True:
-            move_player_1 = raw_input(
-                "{}: Please enter your move in form of row, column, e.g. 1, 3"
-                    .format(p))
-
-            coords = is_input_num_tuple(move_player_1)
-            print coords
-
-            while coords is None:
-                try:
-                    move_player_1 = raw_input(
-                        "{}: Not a valid input, please try "
-                        "again e.g. 1, 3")
-                    coords = is_input_num_tuple(move_player_1)
-                    print coords
-
-                except:
+if __name__ == '__main__':
+    
+    valid_pawns = ['X', 'O']
+    
+    print "This is a game of Tic Tac Toe."
+    matrix = get_orthogonal_matrix(3)
+    print matrix
+    print get_stringified_board(matrix)
+    
+    pawn_player_1 = None
+    x, y = None, None
+    
+    while pawn_player_1 not in valid_pawns:
+        pawn_player_1 = raw_input("Player 1: Please select your pawn: X or O") \
+            .upper()
+    
+    pawn_player_2 = valid_pawns[0] \
+        if valid_pawns.index(pawn_player_1) == 1 else valid_pawns[1]
+    
+    # ordered to have the players turns right
+    players_to_pawns = OrderedDict()
+    players_to_pawns["Player 1"] = pawn_player_1
+    players_to_pawns["Player 2"] = pawn_player_2
+    
+    victory_or_done = False
+    
+    while not victory_or_done:
+        for p in players_to_pawns.keys():
+            current_pawn = players_to_pawns[p]
+            print "Currently playing with {}".format(current_pawn)
+            while True:
+                move_player_1 = raw_input(
+                    "{}: Please enter your move in form of row, column, e.g. 1, 3"
+                        .format(p))
+    
+                coords = is_input_num_tuple(move_player_1)
+    
+                while coords is None:
+                    try:
+                        move_player_1 = raw_input(
+                            "{}: Not a valid input, please try "
+                            "again e.g. 1, 3")
+                        coords = is_input_num_tuple(move_player_1)
+                        print coords
+    
+                    except:
+                        print "Not a valid option."
+    
+                x, y = coords
+                actual_x = x - 1
+                actual_y = y - 1
+    
+                if is_move_valid(actual_x, actual_y, matrix, current_pawn):
+                    matrix[actual_x][actual_y] = current_pawn
+                    break
+                else:
                     print "Not a valid option."
-
-            x, y = coords
-            actual_x = x - 1
-            actual_y = y - 1
-
-            if is_move_valid(actual_x, actual_y, matrix, current_pawn):
-                matrix[actual_x][actual_y] = current_pawn
+    
+            victory_or_done = assess_winner(matrix) in [1, 2] or \
+                              no_more_moves(matrix, valid_pawns)
+    
+            print get_stringified_board(matrix)
+    
+            if victory_or_done:
+                print "{} wins!!!".format(p)
                 break
-            else:
-                print "Not a valid option."
-
-        victory_or_done = assess_winner(matrix) in [1, 2] or \
-                          no_more_moves(matrix, valid_pawns)
-
-        print get_stringified_board(matrix)
-
-        if victory_or_done:
-            print "{} wins!!!".format(p)
-            break
 ```
