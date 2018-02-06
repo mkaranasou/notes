@@ -1707,8 +1707,8 @@ def get_diagonals(matrix):
 
 def get_transposition(matrix):
     """
-    [[ 0, 0, 0],   T   [[0, 1, 4],
-     [ 1, 2, 3],  -->   [0, 2, 4],
+    [[0, 0, 0],   T   [[0, 1, 4],
+     [1, 2, 3],  -->   [0, 2, 4],
      [4, 4, 4]]         [0, 3, 4]]
     :param matrix: an orthogonal matrix
     :return: list[list[T]]: the transposed matrix
@@ -1724,11 +1724,26 @@ def get_transposition(matrix):
     return T
 
 
-def get_orthogonal_matrix(n):
-    return [['-' for _ in range(n)] for i in range(n)]
+def get_orthogonal_matrix(n, v='-'):
+    """
+    Returns an orthogonal matrix, e.g. if n is 3
+    then the result will be:
+    [[v, v, v],
+     [v, v, v],
+     [v, v, v]]
+    :param n: number for the size of the matrix
+    :param v: the default value to initialize the matrix with
+    :return: list[list[T]]
+    """
+    return [[v for _ in range(n)] for i in range(n)]
 
 
 def get_stringified_board(matrix):
+    """
+    Prints a matrix in a tabular, readable form
+    :param matrix:
+    :return:
+    """
     v = '|'
     h = '----'
     s = ' '
@@ -1739,17 +1754,19 @@ def get_stringified_board(matrix):
         board += h * len(row) + n
         for item in row:
             board += v + s + item + s
+        board += v
         board += n
     board += h * len(matrix[0]) + n
 
-    return board
 
 
 def assess_winner(matrix, p1_pawn='X', p2_pawn='O'):
     """
-    Checks if user 1 or 2 has won: 3 consecutive 1s or 2s either vertically,
-    or horizontally or diagonally
-    :param matrix: a 3 by 3 matrix
+    Checks if player 1 or 2 has won: 3 consecutive pawns either vertically,
+    horizontally or diagonally
+    :param list[list[T] matrix: a 3 by 3 matrix
+    :param str p1_pawn: the pawn of player 1
+    :param str p2_pawn: the pawn of player 1
     :return: int, the number of the winner or 0 if no one won.
     """
     winning_rules = {
@@ -1771,7 +1788,8 @@ def assess_winner(matrix, p1_pawn='X', p2_pawn='O'):
 
 
 def no_more_moves(matrix, pawns):
-    return list(set([item for row in matrix for item in row])) == pawns
+    # or all([row.count('-') == 0 for row in matrix])
+    return list(set([item for row in matrix for item in row])) == all(pawns)
 
 
 def is_move_valid(x, y, matrix, marker, empty='-'):
