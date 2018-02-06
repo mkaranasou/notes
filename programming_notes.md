@@ -1545,16 +1545,318 @@ def generate_board(w, h):
 
 def generate_random_matrices(w, h, low=0, high=2):
     from random import randint
-    matrix = [[randint(low, high)] * w for _ in range(h)]
+    matrix = [[randint(low, high) for i in range(w)] for _ in range(h)]
 
-    print matrix
     return matrix
 
 
+def get_diagonals(matrix):
+    m_len = len(matrix)
+
+    d1 = [matrix[i][i] for i in range(m_len)]
+    d2 = [matrix[i][i] for i in range(m_len)[::-1]]
+
+    return d1, d2
+
+
+def get_transposition(matrix):
+    """
+    [[ 0, 0, 0],   T   [[0, 1, 4],
+     [ 1, 2, 3],  -->   [0, 2, 4],
+     [4, 4, 4]]         [0, 3, 4]]
+    :param matrix: an orthogonal matrix
+    :return: list[list[T]]: the transposed matrix
+    """
+    if len(matrix[0]) != len(matrix):
+        raise ValueError("Not an orthogonal matrix.")
+    T = [range(len(matrix)) for _ in range(len(matrix))]
+
+    for row_num, line in enumerate(matrix):
+        for i, n in enumerate(line):
+            T[i][row_num] = n
+
+    return T
+
+
 def assess_winner(matrix):
-    winning_rules = []
+    """
+    Checks if user 1 or 2 has won: 3 consecutive 1s or 2s either vertically,
+    or horizontally or diagonally
+    :param matrix: a 3 by 3 matrix
+    :return: int, the number of the winner or 0 if no one won.
+    """
+    winning_rules = {
+        1: [1] * 3,
+        2: [2] * 3
+    }
+
+    # accumulate all cases: columns, rows, diagonals
+    matrix_t = get_transposition(matrix)
+    diagonals = get_diagonals(matrix)
+    matrices = [matrix, matrix_t, diagonals]
+    # check rows, columns and diagonals
+    for matrix in matrices:
+        for row in matrix:
+            for k, v in winning_rules.iteritems():
+                if row == v:
+                    return k
+    return 0
 
 
-generate_random_matrices(3, 3)
+if __name__ == '__main__':
+    # result = assess_winner(generate_random_matrices(3, 3))
+    # if result == 0:
+    #     print "No player won!"
+    # else:
+    #     print "Player no {} won!".format(result)
+    #
+    # game = [[1, 2, 0],
+    #         [2, 1, 0],
+    #         [2, 1, 1]]
+    # assert assess_winner(game) == 1
 
+    diagonal_m = [[1, 0, 2],
+                  [0, 1, 2],
+                  [0, 2, 1]]
+
+    winner_is_2 = [[2, 2, 0],
+                   [2, 1, 0],
+                   [2, 1, 1]]
+    winner_is_1 = [[1, 2, 0],
+                   [2, 1, 0],
+                   [2, 1, 1]]
+    winner_is_also_1 = [[0, 1, 0],
+                        [2, 1, 0],
+                        [2, 1, 1]]
+    no_winner = [[1, 2, 0],
+                 [2, 1, 0],
+                 [2, 1, 2]]
+    also_no_winner = [[1, 2, 0],
+                      [2, 1, 0],
+                      [2, 1, 0]]
+
+    assert assess_winner(winner_is_2) == 2
+    assert assess_winner(winner_is_1) == 1
+    assert assess_winner(winner_is_also_1) == 1
+    assert assess_winner(no_winner) == 0
+    assert assess_winner(also_no_winner) == 0
+    assert assess_winner(diagonal_m) == 1
+
+```
+
+## Tic Tac Toe Draw
+
+When a player (say player 1, who is X) wants to place an X on the screen, 
+they can’t just click on a terminal. So we are going to approximate this 
+clicking simply by asking the user for a coordinate of where they want to place their piece.
+
+As a reminder, our tic tac toe game is really a list of lists. 
+The game starts out with an empty game board like this:
+
+```
+game = [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]]
+```
+The computer asks Player 1 (X) what their move is (in the format row,col), 
+and say they type 1,3. Then the game would print out
+
+```
+game = [[0, 0, X],
+        [0, 0, 0],
+        [0, 0, 0]]
+```
+
+And ask Player 2 for their move, printing an O in that place.
+
+Things to note:
+
+- Assume that player 1 (the first player to move) will always be X and player 2 
+(the second player) will always be O.
+- Notice how in the example I gave coordinates for where I want to move starting 
+from (1, 1) instead of (0, 0). To people who don’t program, starting to count 
+at 0 is a strange concept, so it is better for the user experience if the row 
+counts and column counts start at 1. This is not required, but whichever way 
+you choose to implement this, it should be explained to the player.
+
+- Ask the user to enter coordinates in the form “row,col” - a number, then a 
+comma, then a number. Then you can use your Python skills to figure out which 
+row and column they want their piece to be in.
+- Don’t worry about checking whether someone won the game, but if a player 
+tries to put a piece in a game position where there already is another piece, 
+do not allow the piece to go there.
+Bonus:
+- For the “standard” exercise, don’t worry about “ending” the game - no need to 
+keep track of how many squares are full. In a bonus version, keep track of how 
+many squares are full and automatically stop asking for moves when there are no 
+more valid moves.
+
+
+```python
+from collections import OrderedDict
+
+
+def get_diagonals(matrix):
+    m_len = len(matrix)
+
+    d1 = [matrix[i][i] for i in range(m_len)]
+    d2 = [matrix[i][i] for i in range(m_len)[::-1]]
+
+    return d1, d2
+
+
+def get_transposition(matrix):
+    """
+    [[ 0, 0, 0],   T   [[0, 1, 4],
+     [ 1, 2, 3],  -->   [0, 2, 4],
+     [4, 4, 4]]         [0, 3, 4]]
+    :param matrix: an orthogonal matrix
+    :return: list[list[T]]: the transposed matrix
+    """
+    if len(matrix[0]) != len(matrix):
+        raise ValueError("Not an orthogonal matrix.")
+    T = [range(len(matrix)) for _ in range(len(matrix))]
+
+    for row_num, line in enumerate(matrix):
+        for i, n in enumerate(line):
+            T[i][row_num] = n
+
+    return T
+
+
+def get_orthogonal_matrix(n):
+    return [['-' for _ in range(n)] for i in range(n)]
+
+
+def get_stringified_board(matrix):
+    v = '|'
+    h = '----'
+    s = ' '
+    n = '\n'
+
+    board = ''
+    for row in matrix:
+        board += h * len(row) + n
+        for item in row:
+            board += v + s + item + s
+        board += n
+    board += h * len(matrix[0]) + n
+
+    return board
+
+
+def assess_winner(matrix, p1_pawn='X', p2_pawn='O'):
+    """
+    Checks if user 1 or 2 has won: 3 consecutive 1s or 2s either vertically,
+    or horizontally or diagonally
+    :param matrix: a 3 by 3 matrix
+    :return: int, the number of the winner or 0 if no one won.
+    """
+    winning_rules = {
+        1: [p1_pawn] * 3,
+        2: [p2_pawn] * 3
+    }
+
+    # accumulate all cases: columns, rows, diagonals
+    matrix_t = get_transposition(matrix)
+    diagonals = get_diagonals(matrix)
+    matrices = [matrix, matrix_t, diagonals]
+    # check rows, columns and diagonals
+    for matrix in matrices:
+        for row in matrix:
+            for k, v in winning_rules.iteritems():
+                if row == v:
+                    return k
+    return 0
+
+
+def no_more_moves(matrix, pawns):
+    return list(set([item for row in matrix for item in row])) == pawns
+
+
+def is_move_valid(x, y, matrix, marker, empty='-'):
+    l = len(matrix) - 1
+    if x < 0 or y < 0 or x > l or y > l:
+        return False
+
+    if matrix[x][y] != empty or matrix[x][y] == marker:
+        return False
+
+    return True
+
+
+def is_input_num_tuple(str_input):
+    try:
+        str_input = str_input.strip().replace(' ', '').split(',')
+        x, y = str_input
+        print "x {} y {}".format(x, y)
+        return int(x), int(y)
+    except:
+        return None
+
+
+valid_pawns = ['X', 'O']
+
+print "This is a game of Tic Tac Toe."
+matrix = get_orthogonal_matrix(3)
+print matrix
+print get_stringified_board(matrix)
+
+pawn_player_1 = None
+x, y = None, None
+
+while pawn_player_1 not in valid_pawns:
+    pawn_player_1 = raw_input("Player 1: Please select your pawn: X or O") \
+        .upper()
+
+pawn_player_2 = valid_pawns[0] \
+    if valid_pawns.index(pawn_player_1) == 1 else valid_pawns[1]
+
+players_to_pawns = OrderedDict()
+players_to_pawns["Player 1"] = pawn_player_1
+players_to_pawns["Player 2"] = pawn_player_2
+
+print players_to_pawns, players_to_pawns.keys()
+victory_or_done = False
+while not victory_or_done:
+    for p in players_to_pawns.keys():
+        current_pawn = players_to_pawns[p]
+        print "Currently playing with {}".format(current_pawn)
+        while True:
+            move_player_1 = raw_input(
+                "{}: Please enter your move in form of row, column, e.g. 1, 3"
+                    .format(p))
+
+            coords = is_input_num_tuple(move_player_1)
+            print coords
+
+            while coords is None:
+                try:
+                    move_player_1 = raw_input(
+                        "{}: Not a valid input, please try "
+                        "again e.g. 1, 3")
+                    coords = is_input_num_tuple(move_player_1)
+                    print coords
+
+                except:
+                    print "Not a valid option."
+
+            x, y = coords
+            actual_x = x - 1
+            actual_y = y - 1
+
+            if is_move_valid(actual_x, actual_y, matrix, current_pawn):
+                matrix[actual_x][actual_y] = current_pawn
+                break
+            else:
+                print "Not a valid option."
+
+        victory_or_done = assess_winner(matrix) in [1, 2] or \
+                          no_more_moves(matrix, valid_pawns)
+
+        print get_stringified_board(matrix)
+
+        if victory_or_done:
+            print "{} wins!!!".format(p)
+            break
 ```
