@@ -1880,3 +1880,478 @@ if __name__ == '__main__':
                 print "{} wins!!!".format(p)
                 break
 ```
+
+## Max Of Three
+Implement a function that takes as input three variables, and returns the largest of the three. 
+Do this without using the Python max() function!
+
+The goal of this exercise is to think about some internals that Python normally 
+takes care of for us. All you need is some variables and if statements!
+
+```python
+def get_max_of_three(a, b ,c):
+    return sorted(set([a, b, c]))[-1]
+
+```
+
+## Pick Word
+The task is to write a function that picks a random word from a list of words 
+from the SOWPODS dictionary. Download this file and save it in the same directory 
+as your Python code. 
+This file is Peter Norvig’s compilation of the dictionary of words used in 
+professional Scrabble tournaments. Each line in the file contains a single word.
+
+
+```python
+word_list = []
+with open('./data/sowpods.txt') as sowpods_f:
+    for line in sowpods_f.readlines():
+        word_list.append(line.strip())
+    
+from random import randint
+
+print "Picked {} ".format(word_list[randint(0, len(word_list))])
+
+```
+
+## Guess Letters
+
+In the game of Hangman, a clue word is given by the program that the player has 
+to guess, letter by letter. The player guesses one letter at a time until the 
+entire word has been guessed. 
+(In the actual game, the player can only guess 6 letters incorrectly before losing).
+
+Let’s say the word the player has to guess is “EVAPORATE”. 
+For this exercise, write the logic that asks a player to guess a letter and displays 
+letters in the clue word that were guessed correctly. 
+For now, let the player guess an infinite number of times until they get the 
+entire word. As a bonus, keep track of the letters the player guessed and display 
+a different message if the player tries to guess that letter again. 
+Remember to stop the game when all the letters have been guessed correctly! 
+Don’t worry about choosing a word randomly or keeping track of the number of 
+guesses the player has remaining - we will deal with those in a future exercise.
+
+An example interaction can look like this:
+
+>>> Welcome to Hangman!
+_ _ _ _ _ _ _ _ _
+>>> Guess your letter: S
+Incorrect!
+>>> Guess your letter: E
+E _ _ _ _ _ _ _ E
+...
+
+
+
+----------------
+[Other src](https://github.com/zhiwehu/Python-programming-exercises/blob/master/100%2B%20Python%20challenging%20programming%20exercises.txt)
+## Question 2:
+
+Write a program which can compute the factorial of a given numbers.
+The results should be printed in a comma-separated sequence on a single line.
+Suppose the following input is supplied to the program:
+8
+Then, the output should be:
+40320
+
+Factorial: the product of an integer and all the integers below it; e.g., factorial four ( 4! ) is equal to 24.
+
+```python
+
+def factorial(num):
+    if num == 1:
+        return num
+    return num * factorial(num-1)
+```
+
+## Question 3:
+
+With a given integral number n, write a program to generate a dictionary that 
+contains (i, i*i) such that is an integral number between 1 and n (both included). 
+And then the program should print the dictionary.
+Suppose the following input is supplied to the program:
+8
+Then, the output should be:
+{1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64}
+
+Hints:
+In case of input data being supplied to the question, it should be assumed to be a console input.
+Consider use dict()
+
+```python
+
+def get_dict(num):
+    return {i: i*i for i in range(1, num+1)}
+
+```
+
+## Question 6
+Level 2
+
+Question:
+Write a program that calculates and prints the value according to the given formula:
+Q = Square root of [(2 * C * D)/H]
+Following are the fixed values of C and H:
+C is 50. H is 30.
+D is the variable whose values should be input to your program in a comma-separated sequence.
+Example
+Let us assume the following comma separated input sequence is given to the program:
+100,150,180
+The output of the program should be:
+18,22,24
+
+```python
+def get_result(D):
+    import math
+    C = 50
+    H = 30
+    return round(math.sqrt((2*C*D) / H))
+    
+for i in range(3):
+    while True:
+        try:
+            D = int(raw_input("Please enter number {}".format(i + 1)))
+            print get_result(D)
+            break
+        except:
+            print "Value error."
+        
+```
+
+Question 19
+Level 3
+
+Question:
+You are required to write a program to sort the (name, age, height) tuples by 
+ascending order where name is string, age and height are numbers. 
+The tuples are input by console. The sort criteria is:
+1: Sort based on name;
+2: Then sort based on age;
+3: Then sort by score.
+The priority is that name > age > score.
+If the following tuples are given as input to the program:
+Tom,19,80
+John,20,90
+Jony,17,91
+Jony,17,93
+Json,21,85
+Then, the output of the program should be:
+[('John', '20', '90'), ('Jony', '17', '91'), ('Jony', '17', '93'), ('Json', '21', '85'), ('Tom', '19', '80')]
+
+Hints:
+In case of input data being supplied to the question, it should be assumed to be a console input.
+We use itemgetter to enable multiple sort keys.
+
+```python
+from operator import itemgetter
+
+inventory = []
+while True:
+    name_age_height = raw_input("Enter name, age, height or q to quit")
+    if name_age_height == 'q':
+        break
+    if not name_age_height:
+        print "No input"
+    else:
+        try:
+            name, age, height = name_age_height
+            inventory.append((name.strip(), age.strip(), height.strip()))
+        except:
+            print "Wrong values"
+
+print sorted(inventory, itemgetter(0,1,2))
+```
+
+
+## Question 20
+Level 3
+
+Question:
+Define a class with a generator which can iterate the numbers, which are divisible by 7, between a given range 0 and n.
+
+```python
+def divisible_by_seven_gen(n):
+    for i in range(0, n):
+        if i % 7 == 0:
+            yield i
+
+```
+
+## product
+You are given a two lists  and . Your task is to compute their cartesian product X.
+[other src](https://www.hackerrank.com/challenges/itertools-product/problem)
+
+Example
+
+A = [1, 2]
+B = [3, 4]
+
+AxB = [(1, 3), (1, 4), (2, 3), (2, 4)]
+Note:  and  are sorted lists, and the cartesian product's tuples should be output in sorted order.
+
+Input Format
+
+The first line contains the space separated elements of list . 
+The second line contains the space separated elements of list .
+
+Both lists have no duplicate integer elements.
+
+Constraints
+
+ 
+
+Output Format
+
+Output the space separated tuples of the cartesian product.
+
+Sample Input
+
+ 1 2
+ 3 4
+Sample Output
+
+ (1, 3) (1, 4) (2, 3) (2, 4)
+ 
+ 
+```python
+A = raw_input()
+B = raw_input()
+
+def get_valid_input(input_str):
+    return [int(i.strip()) for i in input_str.split()]
+
+A = get_valid_input(A)
+B = get_valid_input(B)
+
+def get_product_of(A, B):
+    from itertools import product
+    return ' '.join([str(a) for a in product(A, B)])
+
+print get_product_of(A, B)
+```
+
+
+## permutations
+
+You are given a string . 
+Your task is to print all possible permutations of size  of the string in lexicographic sorted order.
+
+Input Format
+
+A single line containing the space separated string  and the integer value .
+
+Constraints
+
+ 
+The string contains only UPPERCASE characters.
+
+Output Format
+
+Print the permutations of the string  on separate lines.
+
+Sample Input
+
+HACK 2
+Sample Output
+
+AC
+AH
+AK
+CA
+CH
+CK
+HA
+HC
+HK
+KA
+KC
+KH
+
+```python
+def get_string_uppercase_characters(str_input):
+    ''.join([c for c in str_input.split() if c.isupper() and c.isalpha()])
+
+
+def get_str_and_perm_nums(str_input):
+    split_str = str_input.strip().split()
+    return ''.join(split_str[:-1]), int(split_str[-1])
+
+
+def get_permutations(capitalized_str, num_perm):
+    from itertools import permutations
+    return sorted([''.join(p) for p in permutations(capitalized_str, num_perm)])
+
+
+str_input_perm = raw_input()
+
+string_to_permutate, num_permutations = get_str_and_perm_nums(str_input_perm)
+
+for p in get_permutations(string_to_permutate, num_permutations):
+    print p
+    
+```
+
+## combinations
+You are given a string . 
+Your task is to print all possible combinations, up to size , of the string in lexicographic sorted order.
+Input Format
+A single line containing the string  and integer value  separated by a space.
+
+Constraints: 
+The string contains only UPPERCASE characters.
+
+Output Format
+Print the different combinations of string  on separate lines.
+
+Sample Input
+HACK 2
+Sample Output
+A
+C
+H
+K
+AC
+AH
+AK
+CH
+CK
+HK
+
+```python
+def get_string_uppercase_characters(str_input):
+    ''.join([c for c in str_input.split() if c.isupper() and c.isalpha()])
+
+
+def get_str_and_comb_nums(str_input):
+    split_str = str_input.strip().split()
+    return ''.join(split_str[:-1]), int(split_str[-1])
+
+
+def get_combinations(capitalized_str, num_comb):
+    from itertools import combinations
+    return sorted([''.join(p) for p in combinations(capitalized_str, num_comb)])
+
+
+str_input_comb = raw_input()
+
+string_to_combine, num_combinations = get_str_and_comb_nums(str_input_comb)
+
+for i in range(1, num_combinations + 1):
+    for p in get_combinations(string_to_combine, i):
+        print p
+
+```
+
+
+## Compress the string
+Sample Input
+1222311
+Sample Output
+(1, 1) (3, 2) (1, 3) (2, 1)
+
+```python
+input_str = raw_input()
+
+
+def compress_string(string_to_compress):
+    result = []
+    current_char = string_to_compress[0]
+    current_count = 1
+    get_output = lambda cc, ci: str((cc, int(ci)))
+
+    for i in range(1, len(string_to_compress)):
+        seen_before = string_to_compress[i] == string_to_compress[i-1]
+        if not seen_before:
+            result.append(get_output(current_count, current_char))
+            current_char = string_to_compress[i]
+            current_count = 1
+        else:
+            current_count += 1
+
+        if i == len(string_to_compress)-1:
+            result.append(get_output(current_count, current_char))
+
+    return ' '.join(result)
+
+
+print compress_string(input_str)
+```
+
+## Maximize it [src](https://www.hackerrank.com/challenges/maximize-it/problem)
+You are given a function . You are also given  lists. The  list consists of  elements.
+
+You have to pick one element from each list so that the value from the equation below is maximized: 
+
+Note that you need to take exactly one element from each list, not necessarily the largest element. 
+You add the squares of the chosen elements and perform the modulo operation. 
+The maximum value that you can obtain, will be the answer to the problem.
+
+Input Format
+The first line contains  space separated integers  and . 
+The next  lines each contains an integer , denoting the number of elements in the  
+list, followed by space separated integers denoting the elements in the list.
+
+Output Format
+
+Output a single integer denoting the value .
+
+Sample Input
+
+3 1000
+2 5 4
+3 7 8 9 
+5 5 7 8 9 10 
+Sample Output
+
+206
+
+
+## Deque
+
+A deque is a double-ended queue. It can be used to add or remove elements from both ends.
+
+Deques support thread safe, memory efficient appends and pops from either side of the deque with approximately the same O(1) 
+performance in either direction.
+
+
+```python
+>>> from collections import deque
+>>> d = deque()
+>>> d.append(1)
+>>> print d
+deque([1])
+>>> d.appendleft(2)
+>>> print d
+deque([2, 1])
+>>> d.clear()
+>>> print d
+deque([])
+>>> d.extend('1')
+>>> print d
+deque(['1'])
+>>> d.extendleft('234')
+>>> print d
+deque(['4', '3', '2', '1'])
+>>> d.count('1')
+1
+>>> d.pop()
+'1'
+>>> print d
+deque(['4', '3', '2'])
+>>> d.popleft()
+'4'
+>>> print d
+deque(['3', '2'])
+>>> d.extend('7896')
+>>> print d
+deque(['3', '2', '7', '8', '9', '6'])
+>>> d.remove('2')
+>>> print d
+deque(['3', '7', '8', '9', '6'])
+>>> d.reverse()
+>>> print d
+deque(['6', '9', '8', '7', '3'])
+>>> d.rotate(3)
+>>> print d
+deque(['8', '7', '3', '6', '9']
+```
