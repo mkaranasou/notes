@@ -1748,8 +1748,9 @@ def get_stringified_board(matrix):
     h = '----'
     s = ' '
     n = '\n'
-
+    
     board = ''
+    
     for row in matrix:
         board += h * len(row) + n
         for item in row:
@@ -1757,7 +1758,8 @@ def get_stringified_board(matrix):
         board += v
         board += n
     board += h * len(matrix[0]) + n
-
+    
+    return board
 
 
 def assess_winner(matrix, p1_pawn='X', p2_pawn='O'):
