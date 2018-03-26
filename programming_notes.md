@@ -2391,3 +2391,36 @@ def levenshtein(s, t):
                 
         return v1[len(t)]
 ```
+
+## Find the longest unique substring
+
+```
+string = "abdkahcalzlahebbbjalzab"
+
+
+def get_longest_unique_str(input_str):
+    substr_lens = []
+    
+    # for each character
+    for i, c in enumerate(input_str):
+        seen_before = []   
+
+        for letter in input_str[i:]:
+            if letter not in seen_before:
+                seen_before.append(letter)
+            else:
+                break
+        # store the length of the unique substring
+        substr_lens.append(len(seen_before))
+    
+    # get the biggest substring
+    max_len = max(substr_lens)
+    
+    # the length of substr_lens is equal to the length of the input string
+    # thus get the index that corresponds to the letter to start from
+    index = substr_lens.index(max_len)
+    
+    return input_str[index:max_len+1]
+
+print get_longest_unique_str(string)
+```
