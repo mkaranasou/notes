@@ -2394,7 +2394,7 @@ def levenshtein(s, t):
 
 ## Find the longest unique substring
 
-```
+```python
 string = "abdkahcalzlahebbbjalzab"
 
 
@@ -2423,4 +2423,8 @@ def get_longest_unique_str(input_str):
     return input_str[index:max_len+1]
 
 print get_longest_unique_str(string)
+
+# output of exaple
+>>> bdkahc
 ```
+
